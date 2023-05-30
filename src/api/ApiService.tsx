@@ -20,3 +20,4 @@ export const loginApi = (email:string, password:string) => ApiClient.post(`/sign
 export const executeLogout = () => ApiClient.post(`/auth/logout`)
 
 export const ListAllBlogsApi = () => ApiClient.get('blogs-all-user')
+export const ListAParticularBlogApi = (id:string) => ApiClient.get(`blog?id=${id}`)
