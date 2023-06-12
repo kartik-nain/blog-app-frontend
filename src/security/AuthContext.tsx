@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { loginApi } from "../api/ApiService";
+import { GetUserProfileInfoApi, loginApi } from "../api/ApiService";
 import ApiClient from "../api/ApiClient";
 
 export interface AuthContextType {
@@ -9,6 +9,9 @@ export interface AuthContextType {
   logout: () => void;
   username: string | null;
   token: string | null;
+  getUserId: () => void;
+  userId: string | null
+
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,11 +28,11 @@ export default function AuthContextProvider({ children }: { children: React.Reac
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   async function login(username: string, password: string): Promise<boolean> {
     try {
       const response = await loginApi(username, password);
-
       if (response.status === 200) {
         const jwtToken = 'Bearer ' + response.data.token;
         setIsAuthenticated(true);
@@ -53,6 +56,12 @@ export default function AuthContextProvider({ children }: { children: React.Reac
     }
   }
 
+  function getUserId() {
+    GetUserProfileInfoApi(username)
+      .then((res) => setUserId(res.data.userId))
+      .catch((err) => err)
+  }
+
   function logout() {
     setIsAuthenticated(false);
     setUsername(null);
@@ -66,6 +75,8 @@ export default function AuthContextProvider({ children }: { children: React.Reac
     logout,
     username,
     token,
+    getUserId,
+    userId
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
