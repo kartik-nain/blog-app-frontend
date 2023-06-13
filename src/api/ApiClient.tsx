@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const ApiClient = axios.create({
-    baseURL: 'http://localhost:3000/'
+    baseURL: 'https://ill-blue-chick-yoke.cyclic.app/'
 })
 
 export default ApiClient

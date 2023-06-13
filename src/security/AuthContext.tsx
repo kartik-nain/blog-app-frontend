@@ -7,7 +7,7 @@ export interface AuthContextType {
   setIsAuthenticated: (value: boolean) => void;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
-  username: string | null;
+  username: string;
   token: string | null;
   getUserId: () => void;
   userId: string | null
@@ -26,7 +26,7 @@ export const useAuth = (): AuthContextType => {
 
 export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState<string | null>(null);
+  const [username, setUsername] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -64,7 +64,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
 
   function logout() {
     setIsAuthenticated(false);
-    setUsername(null);
+    setUsername("");
     setToken(null);
   }
 

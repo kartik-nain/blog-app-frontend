@@ -29,6 +29,7 @@ const AllUsersBlogs = () => {
   }
 
   const AuthContext = useAuth();
+  AuthContext.getUserId()
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900">
@@ -82,7 +83,6 @@ const AllUsersBlogs = () => {
               )}
               {activeTab === "following" && (
                 <div>
-                  {AuthContext.getUserId()}
                   {blogsList
                     .filter((b) => b.userId === AuthContext.userId)
                     .filter((b) => b.category===activeCategory  || activeCategory === "")
