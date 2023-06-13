@@ -57,7 +57,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
   }
 
   function getUserId() {
-    GetUserProfileInfoApi(username)
+    GetUserProfileInfoApi()
       .then((res) => setUserId(res.data.userId))
       .catch((err) => err)
   }
