@@ -22,7 +22,7 @@ export const SaveProfile = (
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     ApiClient.post(`add-profile-info`, { first, last, dob })
-      .then((response) => {
+      .then(() => {
         resolve();
       })
       .catch((error) => {

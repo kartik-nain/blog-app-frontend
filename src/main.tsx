@@ -14,6 +14,7 @@ import SignUp from "./pages/SignUp.tsx";
 import Profile from "./pages/Profile.tsx";
 import MustBeLoggedin from "./components/MustBeLoggedin.tsx";
 import AuthContextProvider, { useAuth } from "./security/AuthContext.tsx";
+import Logout from "./pages/Logout.tsx";
 
 function AuthenticatedRoute({ children }: { children: React.ReactNode }) {
   const authContext = useAuth();
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
   { path: "/mustBeLogin", element: <MustBeLoggedin /> },
+  { path: "/logout", element: <Logout /> }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

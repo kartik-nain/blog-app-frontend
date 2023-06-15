@@ -1,8 +1,6 @@
-import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { AuthContextType, useAuth } from "../security/AuthContext";
-import { useState } from "react";
-import SignUp from "./SignUp";
 
 interface FormValues {
   username: string;
@@ -10,21 +8,24 @@ interface FormValues {
 }
 
 const Login = () => {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
   const auth = useAuth() as AuthContextType;
 
+  // async function handleSubmit(values: FormValues) {
+  //   if (await auth.login(values.username, values.password)) {
+  //     navigate(`/home`);
+  //   } else {
+  //     setFailMessage(true);
+  //   }
+  // }
+
   async function handleSubmit(values: FormValues) {
-    if (await auth.login(values.username, values.password)) {
-      navigate(`/home`);
-    } else {
-      setFailMessage(true);
-    }
+    await auth.login(values.username, values.password)
+    navigate(`/home`);
   }
 
-  const [failMessage, setFailMessage] = useState<boolean>(false);
+  // const [failMessage, setFailMessage] = useState<boolean>(false);
 
   function validate(values: FormValues) {
     let errors: Partial<FormValues> = {};
