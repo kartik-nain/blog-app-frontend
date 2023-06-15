@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { SaveProfile } from "../api/ApiService";
+import { useState, useEffect } from "react";
+import { SaveProfile, GetUserProfileInfoApi } from "../api/ApiService";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState(new Date());
+  const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
 
@@ -15,6 +16,10 @@ const Profile = () => {
 
   const changeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
+  };
+
+  const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   const changeDob = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +39,23 @@ const Profile = () => {
     setFirstName("");
     setLastName("");
   };
+
+  useEffect(() => {
+    GetUserProfileInfoApi()
+      .then((res) => {
+        setFirstName(res.data.firstName);
+        setLastName(res.data.lastName);
+        setDob(new Date(res.data.dob));
+        setEmail(res.data.email);
+      })
+      .catch((err) => {
+        if (err) {
+          setFirstName("No data");
+          setLastName("No Data");
+          setDob(new Date());
+        }
+      });
+  }, []);
 
   return (
     <div className="h-full bg-gray-50">
@@ -68,18 +90,19 @@ const Profile = () => {
                   value={lastName}
                 />
               </div>
-              {/* <div className="sm:col-span-2">
+              <div className="sm:col-span-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Email
                 </label>
                 <input
                   type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 opacity-50 cursor-not-allowed"
                   placeholder="email"
+                  onChange={changeEmail}
+                  value={email}
+                  disabled
                 />
-              </div> */}
+              </div>
               <div className="sm:col-span-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Date of Birth
