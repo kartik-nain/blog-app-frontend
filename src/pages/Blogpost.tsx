@@ -30,8 +30,6 @@ const Blogpost = () => {
     }
   }, [params.userId]);
 
-  console.log(blog);
-
   return (
     <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900">
       <div className="flex justify-between px-4 mx-auto max-w-screen-xl">
@@ -42,14 +40,12 @@ const Blogpost = () => {
                 <img
                   className="mr-4 w-16 h-16 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                  alt="Jese Leos"
-                ></img>
+                  alt="Jese Leos"></img>
                 <div>
                   <a
                     href="#"
                     rel="author"
-                    className="text-xl font-bold text-gray-900 dark:text-white"
-                  >
+                    className="text-xl font-bold text-gray-900 dark:text-white">
                     {blog.author}
                   </a>
                   <p className="text-base font-light text-gray-500 dark:text-gray-400">

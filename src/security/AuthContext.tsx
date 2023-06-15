@@ -1,15 +1,10 @@
 import { createContext, useContext, useState } from "react";
 import { GetUserProfileInfoApi, loginApi, signUpApi } from "../api/ApiService";
-import ApiClient from "../api/ApiClient";
 
 export interface AuthContextType {
-  isAuthenticated: boolean;
-  setIsAuthenticated: (value: boolean) => void;
   login: (username: string, password: string) => Promise<boolean>;
   signUp: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
-  username: string;
-  token: string | null;
   getUserId: () => void;
   userId: string | null;
 }
@@ -31,9 +26,6 @@ export default function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState<string>("");
-  const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
   async function login(username: string, password: string): Promise<boolean> {
@@ -41,15 +33,8 @@ export default function AuthContextProvider({
       const response = await loginApi(username, password);
       if (response.status === 200) {
         const jwtToken = "Bearer " + response.data.token;
-        setIsAuthenticated(true);
-        setUsername(username);
-        setToken(jwtToken);
 
-        ApiClient.interceptors.request.use((config) => {
-          console.log("intercepting and adding token");
-          config.headers.Authorization = jwtToken;
-          return config;
-        });
+        localStorage.setItem("token", jwtToken);
 
         return true;
       } else {
@@ -67,15 +52,8 @@ export default function AuthContextProvider({
       const response = await signUpApi(username, password);
       if (response.status === 200) {
         const jwtToken = "Bearer " + response.data.token;
-        setIsAuthenticated(true);
-        setUsername(username);
-        setToken(jwtToken);
 
-        ApiClient.interceptors.request.use((config) => {
-          console.log("intercepting and adding token");
-          config.headers.Authorization = jwtToken;
-          return config;
-        });
+        localStorage.setItem("token", jwtToken);
 
         return true;
       } else {
@@ -95,19 +73,13 @@ export default function AuthContextProvider({
   }
 
   function logout() {
-    setIsAuthenticated(false);
-    setUsername("");
-    setToken(null);
+    localStorage.removeItem("token");
   }
 
   const contextValue: AuthContextType = {
-    isAuthenticated,
-    setIsAuthenticated,
     login,
     signUp,
     logout,
-    username,
-    token,
     getUserId,
     userId,
   };

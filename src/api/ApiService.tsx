@@ -6,22 +6,59 @@ export const loginApi = (email: string, password: string) =>
 export const signUpApi = (email: string, password: string) =>
   ApiClient.post(`/signup`, { email, password });
 
-export const executeLogout = () => ApiClient.post(`/auth/logout`);
+export const ListAllBlogsApi = async () => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
 
-export const ListAllBlogsApi = () => ApiClient.get("blogs-all-user");
+  return await ApiClient.get("blogs-all-user", { headers })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
-export const ListAParticularBlogApi = (id: string) =>
-  ApiClient.get(`blog?id=${id}`);
+export const ListAParticularBlogApi = async (id: string) => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
 
-export const GetUserProfileInfoApi = () => ApiClient.get(`get-profile-info`);
+  return ApiClient.get(`blog?id=${id}`, { headers })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const GetUserProfileInfoApi = () => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
+
+  return ApiClient.get(`get-profile-info`, { headers })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
 export const SaveProfile = (
   first: string,
   last: string,
   dob: Date
 ): Promise<void> => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
+
   return new Promise((resolve, reject) => {
-    ApiClient.post(`add-profile-info`, { first, last, dob })
+    ApiClient.post(`add-profile-info`, { first, last, dob }, { headers })
       .then(() => {
         resolve();
       })

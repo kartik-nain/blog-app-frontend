@@ -34,7 +34,7 @@ const Profile = () => {
       .then(() => {
         navigate("/home");
       })
-      .catch((err) => console.log(err, "here"));
+      .catch((err) => console.log(err));
     setDob(new Date());
     setFirstName("");
     setLastName("");
