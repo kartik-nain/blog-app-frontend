@@ -6,6 +6,8 @@ import { AuthContextType, useAuth } from "../security/AuthContext";
 interface FormValues {
   username: string;
   password: string;
+  confirmPassword: string;
+  checkPassword: string;
 }
 
 const SignUp = () => {
@@ -18,8 +20,12 @@ const SignUp = () => {
   };
 
   async function handleSubmit(values: FormValues) {
-    if (await auth.signUp(values.username, values.password)) {
-      navigate(`/profile`);
+    if (values.password === values.confirmPassword) {
+      if (await auth.signUp(values.username, values.password)) {
+        navigate(`/profile`);
+      } else {
+        setFailMessage(true);
+      }
     } else {
       setFailMessage(true);
     }
@@ -33,6 +39,15 @@ const SignUp = () => {
     if (!values.password) {
       errors.password = "Please enter a password";
     }
+    if (values.password !== values.confirmPassword) {
+      errors.confirmPassword = "Password do not match";
+    }
+    if (values.password.length < 8) {
+      errors.checkPassword = "Password should be at least 8 characters long.";
+    } else if (!/[!@#$%&*]/.test(values.password)) {
+      errors.checkPassword =
+        "Password should include at least one special character.";
+    }
     return errors;
   }
 
@@ -41,6 +56,7 @@ const SignUp = () => {
       username: "",
       password: "",
       confirmPassword: "",
+      checkPassword: "",
     },
     validate,
     onSubmit: (values) => {
@@ -92,6 +108,11 @@ const SignUp = () => {
                   {...formik.getFieldProps("password")}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
+                {formik.errors.checkPassword && formik.touched.password && (
+                  <p className="text-red-500 text-sm">
+                    {formik.errors.checkPassword}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -99,11 +120,17 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
-                  id="password"
+                  id="confirmPassword"
                   placeholder="••••••••"
                   {...formik.getFieldProps("confirmPassword")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                 />
+                {formik.errors.confirmPassword &&
+                  formik.touched.confirmPassword && (
+                    <p className="text-red-500 text-sm">
+                      {formik.errors.confirmPassword}
+                    </p>
+                  )}
               </div>
               <button
                 type="submit"

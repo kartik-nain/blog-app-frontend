@@ -48,7 +48,7 @@ export const GetUserProfileInfoApi = () => {
     });
 };
 
-export const SaveProfile = (
+export const UpdateProfile = (
   first: string,
   last: string,
   dob: Date
@@ -58,7 +58,7 @@ export const SaveProfile = (
   };
 
   return new Promise((resolve, reject) => {
-    ApiClient.post(`add-profile-info`, { first, last, dob }, { headers })
+    ApiClient.put(`update-profile-info`, { first, last, dob }, { headers })
       .then(() => {
         resolve();
       })

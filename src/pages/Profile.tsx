@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SaveProfile, GetUserProfileInfoApi } from "../api/ApiService";
+import { UpdateProfile, GetUserProfileInfoApi } from "../api/ApiService";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -7,15 +7,19 @@ const Profile = () => {
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState(new Date());
   const [email, setEmail] = useState("");
+  const [isFormEdit, setIsFormEdit] = useState(false);
 
   const navigate = useNavigate();
 
   const changeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
+    setIsFormEdit(true);
   };
 
   const changeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
+    setIsFormEdit(true);
+    console.log("hello");
   };
 
   const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,11 +30,12 @@ const Profile = () => {
     const dateString = e.target.value;
     const date = new Date(dateString);
     setDob(date);
+    setIsFormEdit(true);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    SaveProfile(firstName, lastName, dob)
+    UpdateProfile(firstName, lastName, dob)
       .then(() => {
         navigate("/home");
       })
@@ -118,8 +123,20 @@ const Profile = () => {
             </div>
             <button
               type="submit"
-              className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+              className={`inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 ${
+                !isFormEdit &&
+                "opacity-50 cursor-not-allowed pointer-events-none"
+              } ${isFormEdit && "hover:bg-white hover:text-primary-700"}`}
+              disabled={!isFormEdit}>
               Save
+            </button>
+            <button
+              type="button"
+              className="ml-10 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-primary-700 bg-white rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700 hover:text-white"
+              onClick={() => {
+                navigate("/home");
+              }}>
+              Cancel
             </button>
           </form>
         </div>
