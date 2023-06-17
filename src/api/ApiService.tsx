@@ -25,7 +25,7 @@ export const ListAParticularBlogApi = async (id: string) => {
     Authorization: localStorage.getItem("token"),
   };
 
-  return ApiClient.get(`blog?id=${id}`, { headers })
+  return await ApiClient.get(`blog?id=${id}`, { headers })
     .then((response) => {
       return response;
     })
@@ -34,12 +34,12 @@ export const ListAParticularBlogApi = async (id: string) => {
     });
 };
 
-export const GetUserProfileInfoApi = () => {
+export const GetUserProfileInfoApi = async () => {
   const headers = {
     Authorization: localStorage.getItem("token"),
   };
 
-  return ApiClient.get(`get-profile-info`, { headers })
+  return await ApiClient.get(`get-profile-info`, { headers })
     .then((response) => {
       return response;
     })
@@ -66,4 +66,26 @@ export const UpdateProfile = (
         reject(error);
       });
   });
+};
+
+export const PostBlog = async (
+  title: string,
+  content: string,
+  category: string
+) => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
+
+  return await ApiClient.post(
+    `add-blog`,
+    { title, content, category },
+    { headers }
+  )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
 };

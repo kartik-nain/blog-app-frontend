@@ -12,7 +12,8 @@ import Blogpost from "./pages/Blogpost.tsx";
 import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import Profile from "./pages/Profile.tsx";
-import MustBeLoggedin from "./components/MustBeLoggedin.tsx";
+import Write from "./pages/Write.tsx";
+import MustBeLoggedin from "./pages/MustBeLoggedin.tsx";
 import AuthContextProvider from "./security/AuthContext.tsx";
 
 function AuthenticatedRoute({ children }: { children: React.ReactNode }) {
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
         element: (
           <AuthenticatedRoute>
             <Profile />
+          </AuthenticatedRoute>
+        ),
+      },
+      {
+        path: "/write",
+        element: (
+          <AuthenticatedRoute>
+            <Write />
           </AuthenticatedRoute>
         ),
       },
