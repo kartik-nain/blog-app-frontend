@@ -8,7 +8,6 @@ function App() {
     <>
       <Header />
       {token !== null ? <Outlet /> : <LandingPage />}
-      <Outlet />
     </>
   );
 }
