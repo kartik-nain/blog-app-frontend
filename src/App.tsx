@@ -3,9 +3,11 @@ import LandingPage from "./pages/LandingPage";
 import { Outlet } from "react-router-dom";
 
 function App() {
+  const token = localStorage.getItem("token");
   return (
     <>
       <Header />
+      {token !== null ? <Outlet /> : <LandingPage />}
       <Outlet />
     </>
   );
