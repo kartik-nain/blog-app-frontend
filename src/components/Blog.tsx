@@ -59,8 +59,9 @@ const Blog = ({
             <span className="font-medium dark:text-white">{author}</span>
           </div>
           <Link
-            to={`/users/${author}/blog/${_id}`}
-            className="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
+            to="/blog"
+            className="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
+            state={{ blogId: _id }}>
             Read more
             <svg
               className="ml-2 w-4 h-4"

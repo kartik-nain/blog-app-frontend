@@ -24,44 +24,35 @@ function AuthenticatedRoute({ children }: { children: React.ReactNode }) {
   return <Navigate to="/mustBelogin" />;
 }
 
+const protectedRoutes = [
+  {
+    path: "/home",
+    element: <AllUsersBlogs />,
+  },
+  {
+    path: "/blog",
+    element: <Blogpost />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/write",
+    element: <Write />,
+  },
+];
+
+const protectedRoutesWithAuth = protectedRoutes.map((route) => ({
+  ...route,
+  element: <AuthenticatedRoute>{route.element}</AuthenticatedRoute>,
+}));
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [
-      {
-        path: "/home",
-        element: (
-          <AuthenticatedRoute>
-            <AllUsersBlogs />
-          </AuthenticatedRoute>
-        ),
-      },
-      {
-        path: "/users/:author/blog/:userId",
-        element: (
-          <AuthenticatedRoute>
-            <Blogpost />
-          </AuthenticatedRoute>
-        ),
-      },
-      {
-        path: "/profile",
-        element: (
-          <AuthenticatedRoute>
-            <Profile />
-          </AuthenticatedRoute>
-        ),
-      },
-      {
-        path: "/write",
-        element: (
-          <AuthenticatedRoute>
-            <Write />
-          </AuthenticatedRoute>
-        ),
-      },
-    ],
+    children: protectedRoutesWithAuth,
   },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },

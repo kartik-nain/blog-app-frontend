@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { ListAParticularBlogApi } from "../api/ApiService";
+import { useLocation } from "react-router-dom";
 
 interface Blog {
   author: string;
@@ -10,25 +10,25 @@ interface Blog {
 }
 
 const Blogpost = () => {
+  const location = useLocation();
+  const { blogId } = location.state;
   const [blog, setBlog] = useState<Blog>({
     author: "",
     category: "",
     title: "",
     content: "",
   });
-  const params = useParams<{ userId?: string }>();
 
   useEffect(() => {
-    if (params.userId) {
-      ListAParticularBlogApi(params.userId)
-        .then((res) => {
-          setBlog(res.data[0]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [params.userId]);
+    ListAParticularBlogApi(blogId)
+      .then((res) => {
+        console.log(res.data);
+        setBlog(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [blogId]);
 
   return (
     <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 dark:text-white">

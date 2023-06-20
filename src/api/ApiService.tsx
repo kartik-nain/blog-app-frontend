@@ -20,6 +20,20 @@ export const ListAllBlogsApi = async () => {
     });
 };
 
+export const ListUserBlogApi = async () => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
+
+  return await ApiClient.get("blogs-by-user", { headers })
+    .then((resposne) => {
+      return resposne;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const ListAParticularBlogApi = async (id: string) => {
   const headers = {
     Authorization: localStorage.getItem("token"),
