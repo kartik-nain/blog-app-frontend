@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios from "axios";
 
 const ApiClient = axios.create({
-    baseURL: 'https://ill-blue-chick-yoke.cyclic.app/'
-})
+  baseURL: "https://apricot-squid-hem.cyclic.app/",
+});
 
-export default ApiClient
+export default ApiClient;
