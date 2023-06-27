@@ -3,16 +3,41 @@ import Blog from "../components/Blog";
 import { ListAllBlogsApi, ListUserBlogApi } from "../api/ApiService";
 import { useAuth } from "../security/AuthContext";
 
+type blogType = [
+  {
+    author: string;
+    category: string;
+    content: string;
+    creationDate: Date;
+    title: string;
+    userId: string;
+    __v: number;
+    _id: string;
+  }
+];
+
 const AllUsersBlogs = () => {
   const [blogsList, setBlogsList] = useState<Array<any>>([]);
 
   const [activeTab, setActiveTab] = useState<string>("forYou");
 
+  function shuffle(blogs: blogType) {
+    let i = blogs.length - 1;
+    for (; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = blogs[i];
+      blogs[i] = blogs[j];
+      blogs[j] = temp;
+    }
+    return blogs;
+  }
+
   useEffect(() => {
     if (activeTab === "forYou") {
       ListAllBlogsApi()
         .then((res) => {
-          setBlogsList(res.data);
+          const blogs = shuffle(res.data);
+          setBlogsList(blogs);
         })
         .catch((err) => {
           console.log(err);
@@ -20,7 +45,8 @@ const AllUsersBlogs = () => {
     } else if (activeTab === "byYou") {
       ListUserBlogApi()
         .then((res) => {
-          setBlogsList(res.data);
+          const blogs = shuffle(res.data);
+          setBlogsList(blogs);
         })
         .catch((err) => {
           console.log(err);

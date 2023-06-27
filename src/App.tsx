@@ -7,7 +7,8 @@ function App() {
   return (
     <>
       <Header />
-      {token !== null ? <Outlet /> : <LandingPage />}
+      {token === null && <LandingPage />}
+      <Outlet />
     </>
   );
 }

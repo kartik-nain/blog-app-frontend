@@ -103,3 +103,17 @@ export const PostBlog = async (
       throw error;
     });
 };
+
+export const DeletUserApi = async () => {
+  const headers = {
+    Authorization: localStorage.getItem("token"),
+  };
+
+  return await ApiClient.delete(`delete-profile-info`, { headers })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

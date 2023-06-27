@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { UpdateProfile, GetUserProfileInfoApi } from "../api/ApiService";
+import {
+  UpdateProfile,
+  GetUserProfileInfoApi,
+  DeletUserApi,
+} from "../api/ApiService";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -43,6 +47,15 @@ const Profile = () => {
     setDob(new Date());
     setFirstName("");
     setLastName("");
+  };
+
+  const deletProfile = () => {
+    DeletUserApi()
+      .then((res) => {
+        localStorage.removeItem("token");
+        navigate("/login");
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -132,7 +145,15 @@ const Profile = () => {
             </button>
             <button
               type="button"
-              className="ml-10 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-primary-700 bg-white rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700 hover:text-white"
+              className="ml-10 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-white hover:text-primary-700"
+              onClick={() => {
+                deletProfile();
+              }}>
+              Delete User
+            </button>
+            <button
+              type="button"
+              className="ml-10 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center  text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-white hover:text-primary-700"
               onClick={() => {
                 navigate("/home");
               }}>
