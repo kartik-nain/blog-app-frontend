@@ -45,7 +45,7 @@ const AllUsersBlogs = () => {
     } else if (activeTab === "byYou") {
       ListUserBlogApi()
         .then((res) => {
-          if (res.data.message.length > 0) {
+          if (res.data.message) {
             setBlogsList([]);
           } else {
             const blogs = shuffle(res.data);
