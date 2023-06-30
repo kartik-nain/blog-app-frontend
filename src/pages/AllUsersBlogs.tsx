@@ -45,10 +45,15 @@ const AllUsersBlogs = () => {
     } else if (activeTab === "byYou") {
       ListUserBlogApi()
         .then((res) => {
-          const blogs = shuffle(res.data);
-          setBlogsList(blogs);
+          if (res.data.message.length > 0) {
+            setBlogsList([]);
+          } else {
+            const blogs = shuffle(res.data);
+            setBlogsList(blogs);
+          }
         })
         .catch((err) => {
+          setBlogsList([]);
           console.log(err);
         });
     } else {
