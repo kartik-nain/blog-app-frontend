@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { AuthContextType, useAuth } from "../security/AuthContext";
@@ -16,11 +16,11 @@ const Login = () => {
     if (await auth.login(values.username, values.password)) {
       navigate(`/home`);
     } else {
-      setFailMessage(true);
+      // setFailMessage(true);
     }
   }
 
-  const [failMessage, setFailMessage] = useState<boolean>(false);
+  // const [failMessage, setFailMessage] = useState<boolean>(false);
 
   function validate(values: FormValues) {
     let errors: Partial<FormValues> = {};

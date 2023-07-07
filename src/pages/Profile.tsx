@@ -51,7 +51,7 @@ const Profile = () => {
 
   const deletProfile = () => {
     DeletUserApi()
-      .then((res) => {
+      .then(() => {
         localStorage.removeItem("token");
         navigate("/login");
       })

@@ -1,4 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import hollowstar from "../assets/hollow-heart.svg";
+import filledstar from "../assets/filled-heart.svg";
+import { setFavoriteApi } from "../api/ApiService";
 
 type blogType = {
   userId: string;
@@ -8,16 +12,17 @@ type blogType = {
   author: string;
   _id: string;
   creationDate: Date;
+  favorite: boolean
 };
 
 const Blog = ({
-  userId,
   title,
   content,
   category,
   author,
   _id,
   creationDate,
+  favorite
 }: blogType) => {
   let date = new Date(creationDate);
 
@@ -27,6 +32,17 @@ const Blog = ({
     day: "2-digit",
   };
   const formattedDate: string = date.toLocaleDateString("en-US", options);
+
+  const [isFavorite, setIsFavorite] = useState(favorite);
+
+  const toggleFavorite = async () => {
+    setFavoriteApi(_id)
+    .then((res) => {
+      setIsFavorite(res.data.favorite)
+    })
+    .catch((err: any) => {console.log(err)})
+  };
+
   return (
     <>
       <article className="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -41,7 +57,16 @@ const Blog = ({
             </svg>
             {category}
           </span>
-          <span className="text-sm">{formattedDate}</span>
+          <span className="text-sm flex items-center">
+          <span className="mr-3">{formattedDate}</span>
+            <img
+              className="w-5 h-5 cursor-pointer"
+              src={isFavorite ? filledstar : hollowstar}
+              alt="Favorite"
+              onClick={toggleFavorite}
+            />
+          </span>
+          
         </div>
         <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {title}

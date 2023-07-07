@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { ListAParticularBlogApi } from "../api/ApiService";
+import { ListAParticularBlogApi, setFavoriteApi } from "../api/ApiService";
 import { useLocation } from "react-router-dom";
+import hollowheart from "../assets/hollow-heart.svg";
+import filledheart from "../assets/filled-heart.svg";
 
 interface Blog {
   author: string;
   category: string;
   title: string;
   content: string;
+  favorite: boolean;
 }
 
 const Blogpost = () => {
@@ -17,18 +20,29 @@ const Blogpost = () => {
     category: "",
     title: "",
     content: "",
+    favorite: false
   });
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     ListAParticularBlogApi(blogId)
       .then((res) => {
         console.log(res.data);
         setBlog(res.data[0]);
+        setIsFavorite(res.data[0].favorite)
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [blogId]);
+  }, [blogId, isFavorite]);
+  
+  const toggleFavorite = () => {
+    setFavoriteApi(blogId)
+    .then((res) => {
+      setIsFavorite(res.data.favorite)
+    })
+    .catch((err: any) => {console.log(err)})
+  };
 
   return (
     <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 dark:text-white">
@@ -54,6 +68,12 @@ const Blogpost = () => {
                   <p className="text-base font-light text-gray-500 dark:text-gray-400"></p>
                 </div>
               </div>
+              <img
+                className="w-5 h-5 cursor-pointer"
+                src={isFavorite ? filledheart : hollowheart}
+                alt="Favorite"
+                onClick={toggleFavorite}
+              />
             </address>
             <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
               {blog.title}
@@ -64,6 +84,7 @@ const Blogpost = () => {
       </div>
     </main>
   );
+  
 };
 
 export default Blogpost;

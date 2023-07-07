@@ -3,25 +3,35 @@ import Blog from "../components/Blog";
 import { ListAllBlogsApi, ListUserBlogApi } from "../api/ApiService";
 import { useAuth } from "../security/AuthContext";
 
-type blogType = [
-  {
-    author: string;
-    category: string;
-    content: string;
-    creationDate: Date;
-    title: string;
-    userId: string;
-    __v: number;
-    _id: string;
-  }
-];
+type BlogType = {
+  author: string;
+  category: string;
+  content: string;
+  creationDate: Date;
+  title: string;
+  userId: string;
+  __v: number;
+  _id: string;
+  favorite: boolean;
+  toggleFavorite: (blogId: string) => void;
+};
 
 const AllUsersBlogs = () => {
-  const [blogsList, setBlogsList] = useState<Array<any>>([]);
-
+  const [blogsList, setBlogsList] = useState<BlogType[]>([]);
   const [activeTab, setActiveTab] = useState<string>("forYou");
+  const [activeCategory, setActiveCategory] = useState<string>("");
 
-  function shuffle(blogs: blogType) {
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory((prevCategory) =>
+      prevCategory === category ? "" : category
+    );
+  };
+
+  function shuffle(blogs: BlogType[]) {
     let i = blogs.length - 1;
     for (; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -33,45 +43,31 @@ const AllUsersBlogs = () => {
   }
 
   useEffect(() => {
-    if (activeTab === "forYou") {
-      ListAllBlogsApi()
-        .then((res) => {
-          const blogs = shuffle(res.data);
-          setBlogsList(blogs);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (activeTab === "byYou") {
-      ListUserBlogApi()
-        .then((res) => {
-          if (res.data.message) {
-            setBlogsList([]);
+    const fetchData = async () => {
+      try {
+        let blogs: BlogType[] = [];
+        if (activeTab === "forYou") {
+          const response = await ListAllBlogsApi();
+          blogs = shuffle(response.data);
+        } else if (activeTab === "byYou") {
+          const response = await ListUserBlogApi();
+          if (response.data.message) {
+            blogs = [];
           } else {
-            const blogs = shuffle(res.data);
-            setBlogsList(blogs);
+            blogs = shuffle(response.data);
           }
-        })
-        .catch((err) => {
-          setBlogsList([]);
-          console.log(err);
-        });
-    } else {
-      console.log("Invalid Entry");
-    }
+        } else {
+          console.log("Invalid Entry");
+        }
+        setBlogsList(blogs);
+      } catch (error) {
+        console.log(error);
+        setBlogsList([]);
+      }
+    };
+
+    fetchData();
   }, [activeTab]);
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-  };
-
-  const [activeCategory, setActiveCategory] = useState<String>("");
-
-  function handleCategoryChange(category: string) {
-    setActiveCategory((prevCategory) =>
-      prevCategory === category ? "" : category
-    );
-  }
 
   const AuthContext = useAuth();
   AuthContext.getUserId();
@@ -98,7 +94,8 @@ const AllUsersBlogs = () => {
                       ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                       : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                   }`}
-                  onClick={() => handleTabChange("forYou")}>
+                  onClick={() => handleTabChange("forYou")}
+                >
                   For You
                 </button>
                 <button
@@ -107,7 +104,8 @@ const AllUsersBlogs = () => {
                       ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                       : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                   }`}
-                  onClick={() => handleTabChange("byYou")}>
+                  onClick={() => handleTabChange("byYou")}
+                >
                   By You
                 </button>
               </div>
@@ -118,11 +116,14 @@ const AllUsersBlogs = () => {
                   {/* Render content for "For You" tab */}
                   {blogsList
                     .filter(
-                      (b) =>
-                        b.category === activeCategory || activeCategory === ""
+                      (blog) =>
+                        blog.category === activeCategory || activeCategory === ""
                     )
-                    .map((b) => (
-                      <Blog {...b} key={b.id} />
+                    .map((blog) => (
+                      <Blog
+                        {...blog}
+                        key={blog._id}
+                      />
                     ))}
                   {/* Add your content here */}
                 </div>
@@ -131,11 +132,14 @@ const AllUsersBlogs = () => {
                 <div>
                   {blogsList
                     .filter(
-                      (b) =>
-                        b.category === activeCategory || activeCategory === ""
+                      (blog) =>
+                        blog.category === activeCategory || activeCategory === ""
                     )
-                    .map((b) => (
-                      <Blog {...b} key={b.id} />
+                    .map((blog) => (
+                      <Blog
+                        {...blog}
+                        key={blog._id}
+                      />
                     ))}
                   {/* Add your content here */}
                 </div>
@@ -152,13 +156,13 @@ const AllUsersBlogs = () => {
                   Categories
                 </h2>
                 {[
-                  ...new Set(blogsList.map((b) => b.category.toLowerCase())),
+                  ...new Set(blogsList.map((blog) => blog.category.toLowerCase())),
                 ].map((category) => (
                   <button
                     className={`px-4 py-2 rounded-lg ${
                       activeCategory === category
-                        ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 capitalize dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 mr-2"
-                        : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200 mr-2 capitalize"
+                        ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 my-2 lg:py-2.5 capitalize dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 mr-2"
+                        : "bg-gray-200 m-1 text-gray-800 dark:bg-gray-800 dark:text-gray-200 mr-2 capitalize"
                     }`}
                     onClick={() => handleCategoryChange(category)}
                     key={category} // Add a unique key for each button
