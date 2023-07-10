@@ -75,14 +75,15 @@ const AllUsersBlogs = () => {
   return (
     <div className="bg-gray-100 dark:bg-gray-900">
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8 mt-8">
+      <div className="container mx-auto px-4 py-8 pt-8 min-h-screen ">
+        {" "}
         <div className="flex flex-wrap">
           {/* Main Article */}
-          <div className="w-full md:w-2/3 px-4 mb-8 md:mb-0 order-last md:order-first">
+          <div className="w-full md:w-4/5 px-4 mb-8 md:mb-0 order-last">
             <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
               {/* Replace with your main article content */}
               <h2 className="text-2xl font-bold mb-4 dark:text-white">
-                Main Article
+                Thoughts
               </h2>
 
               {/* Add more main article content as needed */}
@@ -91,7 +92,7 @@ const AllUsersBlogs = () => {
                 <button
                   className={`px-4 py-2 rounded-lg ${
                     activeTab === "forYou"
-                      ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                      ? "text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700"
                       : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                   }`}
                   onClick={() => handleTabChange("forYou")}
@@ -101,7 +102,7 @@ const AllUsersBlogs = () => {
                 <button
                   className={`px-4 py-2 rounded-lg ${
                     activeTab === "byYou"
-                      ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                      ? "text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700"
                       : "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                   }`}
                   onClick={() => handleTabChange("byYou")}
@@ -117,13 +118,11 @@ const AllUsersBlogs = () => {
                   {blogsList
                     .filter(
                       (blog) =>
-                        blog.category === activeCategory || activeCategory === ""
+                        blog.category === activeCategory ||
+                        activeCategory === ""
                     )
                     .map((blog) => (
-                      <Blog
-                        {...blog}
-                        key={blog._id}
-                      />
+                      <Blog {...blog} key={blog._id} />
                     ))}
                   {/* Add your content here */}
                 </div>
@@ -133,13 +132,11 @@ const AllUsersBlogs = () => {
                   {blogsList
                     .filter(
                       (blog) =>
-                        blog.category === activeCategory || activeCategory === ""
+                        blog.category === activeCategory ||
+                        activeCategory === ""
                     )
                     .map((blog) => (
-                      <Blog
-                        {...blog}
-                        key={blog._id}
-                      />
+                      <Blog {...blog} key={blog._id} />
                     ))}
                   {/* Add your content here */}
                 </div>
@@ -148,7 +145,7 @@ const AllUsersBlogs = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="w-full md:w-1/3 px-4 order-first md:order-last">
+          <div className="w-full md:w-1/5 px-4 md:order-first">
             <div className="sticky top-16">
               <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
                 {/* Replace with your sidebar content */}
@@ -156,13 +153,15 @@ const AllUsersBlogs = () => {
                   Categories
                 </h2>
                 {[
-                  ...new Set(blogsList.map((blog) => blog.category.toLowerCase())),
+                  ...new Set(
+                    blogsList.map((blog) => blog.category.toLowerCase())
+                  ),
                 ].map((category) => (
                   <button
                     className={`px-4 py-2 rounded-lg ${
                       activeCategory === category
-                        ? "text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 my-2 lg:py-2.5 capitalize dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 mr-2"
-                        : "bg-gray-200 m-1 text-gray-800 dark:bg-gray-800 dark:text-gray-200 mr-2 capitalize"
+                        ? "dark:text-white text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-1 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                        : "dark:text-white"
                     }`}
                     onClick={() => handleCategoryChange(category)}
                     key={category} // Add a unique key for each button
@@ -178,10 +177,10 @@ const AllUsersBlogs = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-4">
+      <footer className="bottom-0 left-0 z-20 w-full bg-gray-900 text-white py-4">
         <div className="container mx-auto px-4">
           {/* Replace with your footer content */}
-          <p>&copy; 2023 Medium. All rights reserved.</p>
+          <p>&copy; 2023 Thoughts. All rights reserved.</p>
         </div>
       </footer>
     </div>

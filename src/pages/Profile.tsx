@@ -77,7 +77,7 @@ const Profile = () => {
 
   return (
     <div className="h-full bg-gray-50">
-      <section className="bg-white dark:bg-gray-900">
+      <section className="bg-white dark:bg-gray-900 min-h-screen">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
             PROFILE
@@ -91,7 +91,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="first name"
+                  placeholder="First Name"
                   onChange={changeFirstName}
                   value={firstName}
                 />
@@ -103,7 +103,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="last name"
+                  placeholder="Last name"
                   onChange={changeLastName}
                   value={lastName}
                 />
@@ -134,31 +134,27 @@ const Profile = () => {
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              className={`inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 ${
-                !isFormEdit &&
-                "opacity-50 cursor-not-allowed pointer-events-none"
-              } ${isFormEdit && "hover:bg-white hover:text-primary-700"}`}
-              disabled={!isFormEdit}>
-              Save
-            </button>
-            <button
-              type="button"
-              className="ml-10 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-white hover:text-primary-700"
-              onClick={() => {
-                deletProfile();
-              }}>
-              Delete User
-            </button>
-            <button
-              type="button"
-              className="ml-10 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center  text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-white hover:text-primary-700"
-              onClick={() => {
-                navigate("/home");
-              }}>
-              Cancel
-            </button>
+            <div className="flex gap-12">
+              <button
+                type="submit"
+                className={`items-center px-5 flex-auto py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg ${
+                  !isFormEdit &&
+                  "opacity-80 cursor-not-allowed pointer-events-none"
+                } ${isFormEdit && "hover:bg-white hover:text-primary-700"}`}
+                disabled={!isFormEdit}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="items-center bg-slate-100 px-5 flex-auto py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700 hover:text-white"
+                onClick={() => {
+                  navigate("/home");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </section>

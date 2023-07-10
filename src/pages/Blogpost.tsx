@@ -45,16 +45,16 @@ const Blogpost = () => {
   };
 
   return (
-    <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 dark:text-white">
+    <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 dark:text-white min-h-screen">
       <div className="flex justify-between px-4 mx-auto max-w-screen-xl">
         <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
           <header className="mb-4 lg:mb-6 not-format">
             <address className="flex items-center mb-6 not-italic">
               <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                <img
-                  className="mr-4 w-16 h-16 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                  alt="Jese Leos"></img>
+              <img
+                  className="w-10 mr-5"
+                  src="/src/assets/woman.png"
+                  alt=""></img>
                 <div>
                   <a
                     href="#"
@@ -62,14 +62,14 @@ const Blogpost = () => {
                     className="text-xl font-bold text-gray-900 dark:text-white">
                     {blog.author}
                   </a>
-                  <p className="text-base font-light text-gray-500 dark:text-gray-400 capitalize">
-                    {blog.category}
+                  <p className="">
+                    <span className="bg-primary-100  text-primary-800 text-xs font-medium items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">{blog.category}</span>
                   </p>
                   <p className="text-base font-light text-gray-500 dark:text-gray-400"></p>
                 </div>
               </div>
               <img
-                className="w-5 h-5 cursor-pointer"
+                className="w-5 h-5 cursor-pointer mb-4"
                 src={isFavorite ? filledheart : hollowheart}
                 alt="Favorite"
                 onClick={toggleFavorite}
