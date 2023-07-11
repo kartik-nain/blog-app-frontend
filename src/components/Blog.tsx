@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import hollowstar from "../assets/hollow-heart.svg";
-import filledstar from "../assets/filled-heart.svg";
+import hollowstar from "/src/assets/hollow-heart.svg";
+import filledstar from "/src/assets/filled-heart.svg";
 import { setFavoriteApi } from "../api/ApiService";
 
 type blogType = {

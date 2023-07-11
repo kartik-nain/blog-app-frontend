@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ListAParticularBlogApi, setFavoriteApi } from "../api/ApiService";
 import { useLocation } from "react-router-dom";
-import hollowheart from "../assets/hollow-heart.svg";
-import filledheart from "../assets/filled-heart.svg";
+import hollowheart from "/src/assets/hollow-heart.svg";
+import filledheart from "/src/assets/filled-heart.svg";
 
 interface Blog {
   author: string;
