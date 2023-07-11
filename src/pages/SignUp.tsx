@@ -13,7 +13,7 @@ interface FormValues {
 const SignUp = () => {
   const navigate = useNavigate();
   const auth = useAuth() as AuthContextType;
-  const [failMessage, setFailMessage] = useState<boolean>(false);
+  const [, setFailMessage] = useState<boolean>(false);
 
   const toLogin = () => {
     navigate("/login");
