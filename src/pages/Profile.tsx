@@ -23,7 +23,6 @@ const Profile = () => {
   const changeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
     setIsFormEdit(true);
-    console.log("hello");
   };
 
   const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,17 +140,26 @@ const Profile = () => {
                   !isFormEdit &&
                   "opacity-80 cursor-not-allowed pointer-events-none"
                 } ${isFormEdit && "hover:bg-white hover:text-primary-700"}`}
-                disabled={!isFormEdit}
-              >
+                disabled={!isFormEdit}>
                 Save
               </button>
+
+              <button
+                type="button"
+                className="items-center bg-slate-100 px-5 flex-auto py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700 hover:text-white"
+                onClick={() => {
+                  deletProfile();
+                  navigate("/login");
+                }}>
+                Delete
+              </button>
+
               <button
                 type="button"
                 className="items-center bg-slate-100 px-5 flex-auto py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700 hover:text-white"
                 onClick={() => {
                   navigate("/home");
-                }}
-              >
+                }}>
                 Cancel
               </button>
             </div>

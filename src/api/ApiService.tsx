@@ -13,7 +13,6 @@ export const ListAllBlogsApi = async () => {
 
   return await ApiClient.get("blogs-all-user", { headers })
     .then((response) => {
-      console.log(response)
       return response;
     })
     .catch((error) => {
@@ -53,8 +52,8 @@ export const setFavoriteApi = async (_id: string) => {
   const headers = {
     Authorization: localStorage.getItem("token"),
   };
-  return await ApiClient.put("set-favorite-blog", {_id}, { headers })
-}
+  return await ApiClient.put("set-favorite-blog", { _id }, { headers });
+};
 
 export const GetUserProfileInfoApi = async () => {
   const headers = {
