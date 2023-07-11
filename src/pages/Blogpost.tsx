@@ -20,28 +20,29 @@ const Blogpost = () => {
     category: "",
     title: "",
     content: "",
-    favorite: false
+    favorite: false,
   });
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     ListAParticularBlogApi(blogId)
       .then((res) => {
-        console.log(res.data);
         setBlog(res.data[0]);
-        setIsFavorite(res.data[0].favorite)
+        setIsFavorite(res.data[0].favorite);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [blogId, isFavorite]);
-  
+
   const toggleFavorite = () => {
     setFavoriteApi(blogId)
-    .then((res) => {
-      setIsFavorite(res.data.favorite)
-    })
-    .catch((err: any) => {console.log(err)})
+      .then((res) => {
+        setIsFavorite(res.data.favorite);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -51,7 +52,7 @@ const Blogpost = () => {
           <header className="mb-4 lg:mb-6 not-format">
             <address className="flex items-center mb-6 not-italic">
               <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-              <img
+                <img
                   className="w-10 mr-5"
                   src="/src/assets/woman.png"
                   alt=""></img>
@@ -63,7 +64,9 @@ const Blogpost = () => {
                     {blog.author}
                   </a>
                   <p className="">
-                    <span className="bg-primary-100  text-primary-800 text-xs font-medium items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">{blog.category}</span>
+                    <span className="bg-primary-100  text-primary-800 text-xs font-medium items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
+                      {blog.category}
+                    </span>
                   </p>
                   <p className="text-base font-light text-gray-500 dark:text-gray-400"></p>
                 </div>
@@ -84,7 +87,6 @@ const Blogpost = () => {
       </div>
     </main>
   );
-  
 };
 
 export default Blogpost;
