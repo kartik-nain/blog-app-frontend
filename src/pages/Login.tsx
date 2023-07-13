@@ -71,13 +71,15 @@ const Login = () => {
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 mx-auto space-y-4 md:space-y-6 sm:p-8">
-          {failMessage && (
-                <div className="text-red-500 text-center">{errorMessage}</div>
-              )}
+            {failMessage && (
+              <div className="text-red-500 text-center">{errorMessage}</div>
+            )}
             <h1 className="font-bold text-xl leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
               Login and unlock a world of possibilities!
             </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={formik.handleSubmit}>
+            <form
+              className="space-y-4 md:space-y-6"
+              onSubmit={formik.handleSubmit}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Email
@@ -94,7 +96,9 @@ const Login = () => {
                   {...formik.getFieldProps("emailAddress")}
                 />
                 {formik.touched.emailAddress && formik.errors.emailAddress && (
-                  <div className="text-red-500">{formik.errors.emailAddress}</div>
+                  <div className="text-red-500">
+                    {formik.errors.emailAddress}
+                  </div>
                 )}
               </div>
               <div>
@@ -118,8 +122,8 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700"
-              >
+                style={{ color: "red" }}
+                className="w-full text-white bg-primary-600 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700">
                 Sign In
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -127,8 +131,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => toSignup()}
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                   Sign Up
                 </button>
               </p>
